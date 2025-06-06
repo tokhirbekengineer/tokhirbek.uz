@@ -1,0 +1,61 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto px-4 py-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Posts</h1>
+    <a href="{% url 'post_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">+ New Post</a>
+  </div>
+
+  <!-- Search bar -->
+  <form method="get" class="mb-6">
+    <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}"
+           class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+  </form>
+
+  {% if posts %}
+    <div class="space-y-4">
+      {% for post in posts %}
+        <div class="bg-white rounded shadow p-4 hover:shadow-md transition">
+          <h2 class="text-xl font-semibold text-blue-600">
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+          </h2>
+          <p class="text-sm text-gray-500">Published: {{ post.created_at|date:"Y-m-d" }}</p>
+          <div class="mt-2 flex gap-4 text-sm">
+            <a href="{% url 'post_update' slug=post.slug %}" class="text-yellow-600 hover:underline">Edit</a>
+            <a href="{% url 'post_delete' slug=post.slug %}" class="text-red-600 hover:underline">Delete</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination - Raqamli sahifa tugmalari -->
+<div class="mt-6 flex justify-center items-center space-x-1">
+    {% if posts.has_previous %}
+      <a href="?q={{ request.GET.q }}&page={{ posts.previous_page_number }}" class="px-3 py-1 bg-white border rounded hover:bg-gray-100">&laquo;</a>
+    {% else %}
+      <span class="px-3 py-1 bg-gray-100 border rounded text-gray-400">&laquo;</span>
+    {% endif %}
+  
+    {% for num in posts.paginator.page_range %}
+      {% if posts.number == num %}
+        <span class="px-3 py-1 bg-blue-600 text-white rounded">{{ num }}</span>
+      {% else %}
+        <a href="?q={{ request.GET.q }}&page={{ num }}" class="px-3 py-1 bg-white border rounded hover:bg-gray-100">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+  
+    {% if posts.has_next %}
+      <a href="?q={{ request.GET.q }}&page={{ posts.next_page_number }}" class="px-3 py-1 bg-white border rounded hover:bg-gray-100">&raquo;</a>
+    {% else %}
+      <span class="px-3 py-1 bg-gray-100 border rounded text-gray-400">&raquo;</span>
+    {% endif %}
+  </div>
+  
+
+  {% else %}
+    <p class="text-gray-500 text-center mt-10">No posts available.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

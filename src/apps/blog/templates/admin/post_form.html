@@ -1,0 +1,49 @@
+{% extends "base/base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+  {% if post %}Edit{% else %}Create{% endif %} Post - My Blog
+{% endblock %}
+
+{% block content %}
+  <div class="bg-white shadow-lg rounded-lg p-8 max-w-3xl mx-auto">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">
+      {% if post %}Edit{% else %}Create{% endif %} Post
+    </h1>
+    <form method="POST" enctype="multipart/form-data" class="space-y-5">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block text-gray-700 font-medium mb-1 text-sm">
+            {{ field.label }}
+            {% if field.field.required %}
+              <span class="text-red-500">*</span>
+            {% endif %}
+          </label>
+          {{ field|add_class:"w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+
+          {% if field.help_text %}
+            <p class="text-xs text-gray-400 mt-1">{{ field.help_text }}</p>
+          {% endif %}
+
+          {% for error in field.errors %}
+            <p class="text-red-600 text-xs mt-1">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition duration-300 text-sm">
+        Save
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-gray-600 text-sm">
+      <a href="{% url 'post_list' %}" class="text-blue-600 hover:underline">
+        &larr; Back to Posts
+      </a>
+    </p>
+  </div>
+{% endblock %}

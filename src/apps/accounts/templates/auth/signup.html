@@ -1,0 +1,58 @@
+{% extends "base/base.html" %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Ro‘yxatdan o‘tish</h2>
+
+        <form method="post" class="space-y-5">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div>
+                {{ form.username_email.label_tag }}
+                <input type="text" 
+                       name="{{ form.username_email.name }}" 
+                       value="{{ form.username_email.value|default:'' }}"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Username yoki Email" />
+                {% if form.username_email.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.username_email.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                {{ form.reset_password_email.label_tag }}
+                <input type="email" 
+                       name="{{ form.reset_password_email.name }}" 
+                       value="{{ form.reset_password_email.value|default:'' }}"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Email (parolni tiklash uchun)" />
+                {% if form.reset_password_email.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.reset_password_email.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                {{ form.password.label_tag }}
+                <input type="password" 
+                       name="{{ form.password.name }}"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Parol" />
+                {% if form.password.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.password.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition duration-300">
+                Ro‘yxatdan o‘tish
+            </button>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-gray-600">
+            Allaqachon hisobingiz bormi?
+            <a href="{% url 'login' %}" class="text-blue-600 hover:underline font-medium">Tizimga kirish</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

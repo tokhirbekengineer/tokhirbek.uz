@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+{% block title %}{{ section.title }}{% endblock %}
+{% block content %}
+  <h1 class="text-2xl font-bold mb-4">{{ section.title }}</h1>
+  <p><strong>Post:</strong> {{ section.post.title }}</p>
+  <p><strong>Description:</strong></p>
+  <p class="mb-4 whitespace-pre-wrap">{{ section.description }}</p>
+  <p><strong>Active:</strong> {{ section.is_active }}</p>
+  <p><strong>Created at:</strong> {{ section.created_at }}</p>
+  <p><strong>Updated at:</strong> {{ section.updated_at }}</p>
+  <a href="{% url 'postsection_update' section.pk %}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
+  <a href="{% url 'postsection_delete' section.pk %}" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-2">Delete</a>
+  <a href="{% url 'postsection_list' %}" class="ml-4 text-gray-600 hover:underline">Back to list</a>
+{% endblock %}

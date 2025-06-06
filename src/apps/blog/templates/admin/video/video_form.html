@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <h2 class="text-3xl font-semibold mb-6">Yangi Video Qo‘shish</h2>
+
+  <form method="post" enctype="multipart/form-data" class="max-w-xl bg-white p-6 rounded shadow">
+    {% csrf_token %}
+    
+    {% for field in form %}
+      <div class="mb-5">
+        <label for="{{ field.id_for_label }}" class="block text-gray-700 font-medium mb-1">{{ field.label }}</label>
+        
+        {{ field|add_class:"w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+        
+        {% if field.help_text %}
+          <p class="text-sm text-gray-500 mt-1">{{ field.help_text }}</p>
+        {% endif %}
+        
+        {% for error in field.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    
+    <div class="flex items-center space-x-4">
+      <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Saqlash</button>
+      <a href="{% url 'postsection_detail' pk=section.pk %}" class="text-gray-600 hover:underline">Bekor qilish</a>
+    </div>
+  </form>
+{% endblock %}

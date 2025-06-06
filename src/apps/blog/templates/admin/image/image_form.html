@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <h2 class="text-2xl font-bold mb-4">Yangi rasm qo‘shish</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="mb-4">
+        <label class="block font-medium">{{ field.label }}</label>
+        {{ field|add_class:"w-full border rounded p-2" }}
+        {% if field.help_text %}
+          <small class="text-gray-500">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p class="text-red-600">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Saqlash</button>
+    <a href="{% url 'postsection_detail' pk=section.pk %}" class="ml-4 text-gray-600 hover:underline">Bekor qilish</a>
+  </form>
+{% endblock %}

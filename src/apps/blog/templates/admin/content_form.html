@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+  <h1 class="text-xl font-bold mb-4">{% if create %}Add{% else %}Edit{% endif %} Paragraph</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+      <div class="mb-4">
+        <label for="{{ field.id_for_label }}" class="block font-semibold">{{ field.label }}</label>
+        {{ field|add_class:"w-full border rounded p-2" }}
+        {% if field.help_text %}
+          <small class="text-gray-500">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p class="text-red-600">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+    <a href="{% url 'postsection_detail' pk=section.pk %}" class="ml-4 text-gray-600 hover:underline">Cancel</a>
+
+  </form>
+{% endblock %}

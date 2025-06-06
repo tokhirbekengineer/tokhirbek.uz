@@ -1,0 +1,11 @@
+{% extends "base/base.html" %}
+{% block title %}Paragraph{% endblock %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Paragraph Form</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+    <a href="{% url 'postsection_detail' pk=section.id %}" class="ml-4 text-gray-600">Cancel</a>
+</form>
+{% endblock %}
